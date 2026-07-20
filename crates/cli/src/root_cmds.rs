@@ -20,6 +20,7 @@ impl Repl {
             UserCmd::Create { name } => self.user_create(&name),
             UserCmd::List => self.user_list(),
             UserCmd::Use { name } => self.user_use(&name),
+            UserCmd::Rm => self.user_delete(),
         }
     }
 
@@ -88,6 +89,30 @@ impl Repl {
         self.user = Some(UserCtx { id });
         self.scope = Scope::Root;
         println!("Logged in as {real_name}.");
+        Ok(Flow::Continue)
+    }
+
+    /// Delete your own profile. Cascades to fridges, lots and bin. Irreversible,
+    /// so it re-checks the password before doing anything.
+    fn user_delete(&mut self) -> Result<Flow> {
+        let id = self.require_user()?.id;
+        let (name, hash): (String, String) = self.conn.query_row(
+            "SELECT name, password_hash FROM users WHERE id = ?1",
+            [id],
+            |r| Ok((r.get(0)?, r.get(1)?)),
+        )?;
+        let pw = self.read_secret(&format!(
+            "Deleting profile {name} and all its fridges. Password to confirm: "
+        ))?;
+        if !auth::verify(&pw, &hash) {
+            bail!("wrong password; nothing was deleted");
+        }
+        // FK cascade (users -> fridges -> lots/bin) does the rest.
+        self.conn
+            .execute("DELETE FROM users WHERE id = ?1", [id])?;
+        self.user = None;
+        self.scope = Scope::Root;
+        println!("Deleted profile {name}.");
         Ok(Flow::Continue)
     }
 

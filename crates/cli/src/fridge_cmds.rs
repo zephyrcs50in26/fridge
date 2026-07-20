@@ -93,19 +93,34 @@ impl Repl {
             (lot.name.clone(), vec![lot])
         } else {
             let name = names::validate_product(target)?;
-            let lots = store::lots_by_name_kind(&self.conn, fid, &name, amount.kind)?;
-            if lots.is_empty() {
+            let all = store::lots_by_name(&self.conn, fid, &name)?;
+            if all.is_empty() {
                 bail!("no {name} to take");
             }
-            (lots[0].name.clone(), lots)
+            let display_name = all[0].name.clone();
+            // The product exists; keep only the lots in the requested unit.
+            let matched: Vec<Lot> = all
+                .iter()
+                .filter(|l| l.unit_kind == amount.kind)
+                .cloned()
+                .collect();
+            if matched.is_empty() {
+                bail!(
+                    "{display_name} is measured in {}, not {}",
+                    all[0].unit_kind.base_unit(),
+                    amount.kind.base_unit()
+                );
+            }
+            (display_name, matched)
         };
 
+        // For an id target the lot may still be the wrong unit.
         if let Some(bad) = lots.iter().find(|l| l.unit_kind != amount.kind) {
             bail!(
                 "{} is measured in {}, not {}",
                 bad.name,
-                bad.unit_kind,
-                amount.kind
+                bad.unit_kind.base_unit(),
+                amount.kind.base_unit()
             );
         }
 

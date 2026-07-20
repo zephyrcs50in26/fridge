@@ -238,6 +238,7 @@ fn print_root_help() {
          \x20 user create <name>      create a profile (and log in)\n\
          \x20 user use <name>         log in as a profile\n\
          \x20 user list               list profiles\n\
+         \x20 user rm                 delete your profile and all its fridges\n\
          \x20 fridge create <name>    create a fridge\n\
          \x20 fridge rename <a> <b>   rename a fridge\n\
          \x20 fridge rm <name|id>     delete a fridge and everything in it\n\
@@ -296,6 +297,8 @@ pub enum UserCmd {
     Create { name: String },
     List,
     Use { name: String },
+    /// Delete your own profile and everything in it (password-confirmed)
+    Rm,
 }
 
 #[derive(Subcommand)]

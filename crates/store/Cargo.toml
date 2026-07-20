@@ -7,5 +7,4 @@ description = "SQLite persistence for fridge: schema, connection, lot/bin querie
 [dependencies]
 anyhow.workspace = true
 rusqlite.workspace = true
-directories.workspace = true
 fridge-core.workspace = true

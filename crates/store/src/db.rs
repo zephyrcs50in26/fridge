@@ -20,13 +20,12 @@ pub fn open() -> Result<Connection> {
     Ok(conn)
 }
 
-/// Where the database lives. `FRIDGE_DB` overrides the platform data dir,
-/// which is convenient for tests and scripted sessions.
+/// Where the database lives. `FRIDGE_DB` overrides it; otherwise the default is
+/// a `.tmp/` folder in the current working directory, so a run from the project
+/// keeps its data inside the project (and out of git — see `.gitignore`).
 fn db_path() -> Result<PathBuf> {
     if let Ok(env) = std::env::var("FRIDGE_DB") {
         return Ok(PathBuf::from(env));
     }
-    let dirs = directories::ProjectDirs::from("", "", "fridge")
-        .context("could not determine a data directory")?;
-    Ok(dirs.data_dir().join("fridge.sqlite"))
+    Ok(PathBuf::from(".tmp").join("fridge.sqlite"))
 }

@@ -8,7 +8,8 @@
 # Backtrace / profiling
 *.profraw
 
-# Local fridge databases (FRIDGE_DB scratch files)
+# Local fridge databases (default .tmp/ dir + any FRIDGE_DB scratch files)
+.tmp/
 *.sqlite
 *.sqlite-journal
 *.sqlite-wal

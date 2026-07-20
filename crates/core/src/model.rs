@@ -19,6 +19,15 @@ impl UnitKind {
         }
     }
 
+    /// The base unit a lot of this kind is stored in — for human-facing messages.
+    pub fn base_unit(self) -> &'static str {
+        match self {
+            UnitKind::Count => "pcs",
+            UnitKind::Volume => "ml",
+            UnitKind::Mass => "g",
+        }
+    }
+
     pub fn parse(s: &str) -> Result<UnitKind> {
         Ok(match s {
             "COUNT" => UnitKind::Count,
