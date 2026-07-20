@@ -1,0 +1,18 @@
+[package]
+name = "fridge"
+version.workspace = true
+edition.workspace = true
+description.workspace = true
+
+[[bin]]
+name = "fridge"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+jiff.workspace = true
+rusqlite.workspace = true
+fridge-core.workspace = true
+fridge-auth.workspace = true
+fridge-store.workspace = true

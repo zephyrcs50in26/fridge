@@ -1,0 +1,27 @@
+[workspace]
+resolver = "2"
+members = ["crates/core", "crates/auth", "crates/store", "crates/cli"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+description = "A command-line what's-in-my-fridge tool"
+
+[workspace.dependencies]
+# third-party
+anyhow = "1"
+thiserror = "1"
+jiff = "0.2"
+rust_decimal = "1"
+rusqlite = { version = "0.32", features = ["bundled"] }
+directories = "5"
+clap = { version = "4", features = ["derive"] }
+argon2 = "0.5"
+password-hash = "0.5"
+rand_core = { version = "0.6", features = ["getrandom"] }
+rpassword = "7"
+
+# workspace crates
+fridge-core = { path = "crates/core" }
+fridge-auth = { path = "crates/auth" }
+fridge-store = { path = "crates/store" }

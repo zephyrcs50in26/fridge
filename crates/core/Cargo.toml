@@ -1,0 +1,10 @@
+[package]
+name = "fridge-core"
+version.workspace = true
+edition.workspace = true
+description = "Fridge domain model: units, names, dates (no IO, no storage)"
+
+[dependencies]
+anyhow.workspace = true
+jiff.workspace = true
+rust_decimal.workspace = true

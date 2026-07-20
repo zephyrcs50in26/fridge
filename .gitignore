@@ -1,0 +1,24 @@
+# Rust build artifacts
+/target/
+
+# Cargo.lock is committed for binaries; kept here since this workspace ships a bin.
+# (remove the next line if you prefer not to track it)
+# Cargo.lock
+
+# Backtrace / profiling
+*.profraw
+
+# Local fridge databases (FRIDGE_DB scratch files)
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+
+# Editor / OS cruft
+.DS_Store
+*.swp
+*~
+.idea/
+.vscode/
+.claude/
+.git/
