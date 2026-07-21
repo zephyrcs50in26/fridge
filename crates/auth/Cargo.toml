@@ -1,0 +1,12 @@
+[package]
+name = "fridge-auth"
+version.workspace = true
+edition.workspace = true
+description = "Password hashing (argon2id) and no-echo prompting for fridge"
+
+[dependencies]
+anyhow.workspace = true
+argon2.workspace = true
+password-hash.workspace = true
+rand_core.workspace = true
+rpassword.workspace = true

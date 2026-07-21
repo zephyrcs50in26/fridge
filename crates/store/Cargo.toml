@@ -1,0 +1,10 @@
+[package]
+name = "fridge-store"
+version.workspace = true
+edition.workspace = true
+description = "SQLite persistence for fridge: schema, connection, lot/bin queries"
+
+[dependencies]
+anyhow.workspace = true
+rusqlite.workspace = true
+fridge-core.workspace = true
